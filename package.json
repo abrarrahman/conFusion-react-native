@@ -1,15 +1,16 @@
 {
   "main": "index.js",
   "scripts": {
-    "android": "react-native run-android",
-    "ios": "react-native run-ios",
+    "android": "expo run-android",
+    "ios": "expo run-ios",
     "web": "expo start --web",
-    "start": "react-native start",
+    "start": "expo start",
     "test": "jest"
   },
   "dependencies": {
     "expo": "~37.0.3",
     "expo-updates": "~0.1.0",
+    "global": "^4.4.0",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
     "react-native": "~0.61.5",
