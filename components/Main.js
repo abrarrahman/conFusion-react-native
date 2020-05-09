@@ -5,6 +5,7 @@ import Home from './Home';
 import Contact from './Contact';
 import About from './About';
 import Reservation from './Reservation';
+import Favorites from './Favorites';
 import { View, Platform, Text, ScrollView, Image, StyleSheet } from 'react-native';
 import { createStackNavigator, createDrawerNavigator, DrawerItems, SafeAreaView } from 'react-navigation';
 import { Icon } from 'react-native-elements';
@@ -72,7 +73,7 @@ const ContactNavigator = createStackNavigator({
   })
 });
 const AboutNavigator = createStackNavigator({
-  Home: { screen: About }
+  About: { screen: About }
 }, {
   navigationOptions: ({navigation}) => ({
     headerStyle: {
@@ -90,7 +91,25 @@ const AboutNavigator = createStackNavigator({
   })
 });
 const ReservationNavigator = createStackNavigator({
-  Home: { screen: Reservation }
+  Reservation: { screen: Reservation }
+}, {
+  navigationOptions: ({navigation}) => ({
+    headerStyle: {
+        backgroundColor: "#512DA8"
+    },
+    headerTitleStyle: {
+        color: "#fff"            
+    },
+    headerTintColor: "#fff",
+    headerLeft: <Icon name='menu' 
+    size={24} 
+    color='white'
+    onPress={()=>navigation.toggleDrawer()}
+    />  
+  })
+});
+const FavoritesNavigator = createStackNavigator({
+  Favorites: { screen: Favorites }
 }, {
   navigationOptions: ({navigation}) => ({
     headerStyle: {
@@ -179,6 +198,21 @@ const MainNavigator = createDrawerNavigator({
             name='address-card'
             type='font-awesome'
             size={22}
+            color={tintColor}
+          />
+        )
+      }
+    },
+  Favorites: 
+    { screen: FavoritesNavigator,
+      navigationOptions: {
+        title: 'My Favorites',
+        drawerLabel: 'My Favorites',
+        drawerIcon: ({tintColor})=>(
+          <Icon 
+            name='heart'
+            type='font-awesome'
+            size={24}
             color={tintColor}
           />
         )

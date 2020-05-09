@@ -25,12 +25,12 @@ class Reservation extends Component {
     this.toggleModal();
   }
   resetForm(){
-    this.state = {
+    this.setState({
       guests: 1,
       smoking: false,
       date: '',
       showModal: false
-    }
+    })
   }
   render(){
     return(
