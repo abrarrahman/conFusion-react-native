@@ -4,6 +4,7 @@ import { Card, Icon, Rating, Input } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
 import { postFavorite, postComment } from '../redux/ActionCreators';
+import * as Animatable from 'react-native-animatable';
 
 class RenderDish extends React.Component{
   constructor(props){
@@ -30,77 +31,79 @@ class RenderDish extends React.Component{
     const dish = this.props.dish;
     if(dish != null){
       return(
-        <Card 
-          featuredTitle = {dish.name} 
-          image = {{uri: baseUrl + dish.image}}>
-          <Text style = {{margin: 10}}>
-            {dish.description}
-          </Text>
-          <View style={{flex: 1, justifyContent: 'center', flexDirection: 'row'}}>
-            <Icon 
-              raised
-              reverse
-              name={ this.props.favorite ? 'heart' : 'heart-o'}
-              type='font-awesome'
-              color='#f50'
-              onPress={()=>this.props.favorite ?
-                console.log('Already favorite') : 
-                this.props.onPress()}
-            />
-            <Icon 
-              raised
-              reverse
-              name={'pencil'}
-              type='font-awesome'
-              color='#512da8'
-              onPress={()=>this.toggleCommentModal()}
-            />
-          </View>
-          <Modal
-            animationType={'slide'}
-            transparent={false}
-            visible={this.state.showCommentModal}
-            onDismiss={()=>{ this.toggleCommentModal(); this.resetCommentForm() }}
-            onRequestClose={()=>{ this.toggleCommentModal(); this.resetCommentForm() }}
+        <Animatable.View animation="fadeInDown" duration={2000} delay={1000}>
+          <Card
+            featuredTitle={dish.name}
+            image={{ uri: baseUrl + dish.image }}>
+            <Text style={{ margin: 10 }}>
+              {dish.description}
+            </Text>
+            <View style={{ flex: 1, justifyContent: 'center', flexDirection: 'row' }}>
+              <Icon
+                raised
+                reverse
+                name={this.props.favorite ? 'heart' : 'heart-o'}
+                type='font-awesome'
+                color='#f50'
+                onPress={() => this.props.favorite ?
+                  console.log('Already favorite') :
+                  this.props.onPress()}
+              />
+              <Icon
+                raised
+                reverse
+                name={'pencil'}
+                type='font-awesome'
+                color='#512da8'
+                onPress={() => this.toggleCommentModal()}
+              />
+            </View>
+            <Modal
+              animationType={'slide'}
+              transparent={false}
+              visible={this.state.showCommentModal}
+              onDismiss={() => { this.toggleCommentModal(); this.resetCommentForm() }}
+              onRequestClose={() => { this.toggleCommentModal(); this.resetCommentForm() }}
             >
-            <Rating
-              showRating
-              startingValue={5}
-              onFinishRating={rating=>this.setState({rating: rating})}
-              style={{ paddingVertical: 10 }}
-            />
-            <Input
-              placeholder="Author"
-              leftIcon={{ type: 'font-awesome', name: 'user-o' }}
-              style={styles.modalText}
-              onChangeText={value => this.setState({ author: value })}
-            />
-            <Input
-              placeholder="Comment"
-              leftIcon={{ type: 'font-awesome', name: 'comment-o' }}
-              style={styles.modalText}
-              onChangeText={value => this.setState({ comment: value })}
-            />
-            <Button 
-              onPress={()=>{
-                this.props.onSubmitComment(
-                  this.state.rating,
-                  this.state.comment,
-                  this.state.author
-                );
-                this.toggleCommentModal();
-              }}
-              color='#512da8'
-              title='Submit'
-              margin={10}
-            />
-            <Button onPress={()=>{ this.toggleCommentModal(); this.resetCommentForm() }}
-              color='gray'
-              title='Cancel'
-              paddingVertical={10}
-            />
-          </Modal>
-        </Card>
+              <Rating
+                showRating
+                startingValue={5}
+                onFinishRating={rating => this.setState({ rating: rating })}
+                style={{ paddingVertical: 10 }}
+              />
+              <Input
+                placeholder="Author"
+                leftIcon={{ type: 'font-awesome', name: 'user-o' }}
+                style={styles.modalText}
+                onChangeText={value => this.setState({ author: value })}
+              />
+              <Input
+                placeholder="Comment"
+                leftIcon={{ type: 'font-awesome', name: 'comment-o' }}
+                style={styles.modalText}
+                onChangeText={value => this.setState({ comment: value })}
+              />
+              <Button
+                onPress={() => {
+                  this.props.onSubmitComment(
+                    this.state.rating,
+                    this.state.comment,
+                    this.state.author
+                  );
+                  this.toggleCommentModal();
+                }}
+                color='#512da8'
+                title='Submit'
+                margin={10}
+              />
+              <Button onPress={() => { this.toggleCommentModal(); this.resetCommentForm() }}
+                color='gray'
+                title='Cancel'
+                paddingVertical={10}
+              />
+            </Modal>
+          </Card>
+        </Animatable.View>
       );
     }else{return <View></View>}
   }
@@ -120,13 +123,15 @@ function RenderComments(props) {
   };
 
   return (
-    <Card title='Comments' >
-      <FlatList
-        data={comments}
-        renderItem={renderCommentItem}
-        keyExtractor={item => item.id.toString()}
-      />
-    </Card>
+    <Animatable.View animation="fadeInUp" duration={2000} delay={1000}>
+      <Card title='Comments' >
+        <FlatList
+          data={comments}
+          renderItem={renderCommentItem}
+          keyExtractor={item => item.id.toString()}
+        />
+      </Card>
+    </Animatable.View>
   );
 }
 class DishDetail extends React.Component {
