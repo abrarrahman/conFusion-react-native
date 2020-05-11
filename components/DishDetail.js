@@ -30,8 +30,14 @@ class RenderDish extends React.Component{
   }
   render(){
     const dish = this.props.dish;
-    const recognizeDrag = ({ moveX, moveY, dx, dy }) => {
+    const didSwipeLeft = ({ moveX, moveY, dx, dy }) => {
       if ( dx < -200 )
+          return true;
+      else
+          return false;
+    }
+    const didSwipeRight = ({ moveX, moveY, dx, dy }) => {
+      if ( dx > 200 )
           return true;
       else
           return false;
@@ -48,7 +54,7 @@ class RenderDish extends React.Component{
       },
       onPanResponderEnd: (e, gestureState) => {
         console.log("pan responder end", gestureState);
-        if (recognizeDrag(gestureState))
+        if (didSwipeLeft(gestureState)){
           Alert.alert(
             'Add Favorite',
             'Are you sure you wish to add ' + dish.name + ' to favorite?',
@@ -61,6 +67,9 @@ class RenderDish extends React.Component{
             ],
             { cancelable: false }
           );
+        }else if (didSwipeRight(gestureState)){
+          this.toggleCommentModal();
+        }
 
         return true;
       }
