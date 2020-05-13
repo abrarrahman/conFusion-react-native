@@ -8,7 +8,9 @@ import Reservation from './Reservation';
 import Favorites from './Favorites';
 import Login from './Login';
 import { View, Platform, Text, ScrollView, Image, StyleSheet } from 'react-native';
-import { createStackNavigator, createDrawerNavigator, DrawerItems, SafeAreaView } from 'react-navigation';
+import { SafeAreaView, createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
+import { DrawerItems, createDrawerNavigator } from 'react-navigation-drawer';
 import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { fetchDishes, fetchComments, fetchPromos, fetchLeaders } from '../redux/ActionCreators';
@@ -17,7 +19,8 @@ const MenuNavigator = createStackNavigator({
   Menu: {
     screen: Menu,
     navigationOptions: ({ navigation }) => ({
-      headerLeft: <Icon name='menu'
+      headerLeft: () => <Icon name='menu'
+        iconStyle={{marginLeft: 10}}
         size={24}
         color='white'
         onPress={() => navigation.toggleDrawer()}
@@ -48,7 +51,8 @@ const HomeNavigator = createStackNavigator({
       color: "#fff"
     },
     headerTintColor: "#fff",
-    headerLeft: <Icon name='menu'
+    headerLeft: () => <Icon name='menu'
+      iconStyle={{marginLeft: 10}}
       size={24}
       color='white'
       onPress={() => navigation.toggleDrawer()}
@@ -66,7 +70,8 @@ const ContactNavigator = createStackNavigator({
       color: "#fff"
     },
     headerTintColor: "#fff",
-    headerLeft: <Icon name='menu'
+    headerLeft: () => <Icon name='menu'
+      iconStyle={{marginLeft: 10}}
       size={24}
       color='white'
       onPress={() => navigation.toggleDrawer()}
@@ -84,7 +89,8 @@ const AboutNavigator = createStackNavigator({
       color: "#fff"
     },
     headerTintColor: "#fff",
-    headerLeft: <Icon name='menu'
+    headerLeft: () => <Icon name='menu'
+      iconStyle={{marginLeft: 10}}
       size={24}
       color='white'
       onPress={() => navigation.toggleDrawer()}
@@ -102,7 +108,8 @@ const ReservationNavigator = createStackNavigator({
       color: "#fff"
     },
     headerTintColor: "#fff",
-    headerLeft: <Icon name='menu'
+    headerLeft: () => <Icon name='menu'
+      iconStyle={{marginLeft: 10}}
       size={24}
       color='white'
       onPress={() => navigation.toggleDrawer()}
@@ -120,7 +127,8 @@ const FavoritesNavigator = createStackNavigator({
       color: "#fff"
     },
     headerTintColor: "#fff",
-    headerLeft: <Icon name='menu'
+    headerLeft: () => <Icon name='menu'
+      iconStyle={{marginLeft: 10}}
       size={24}
       color='white'
       onPress={() => navigation.toggleDrawer()}
@@ -138,7 +146,8 @@ const LoginNavigator = createStackNavigator({
       color: "#fff"
     },
     headerTintColor: "#fff",
-    headerLeft: <Icon name='menu'
+    headerLeft: () => <Icon name='menu'
+      iconStyle={{marginLeft: 10}}
       size={24}
       color='white'
       onPress={() => navigation.toggleDrawer()}
@@ -279,6 +288,9 @@ const MainNavigator = createDrawerNavigator({
   contentComponent: CustomDrawerContentComponent
 });
 
+const App = createAppContainer(MainNavigator);
+
+
 class Main extends Component {
   componentDidMount() {
     this.props.fetchDishes();
@@ -289,7 +301,7 @@ class Main extends Component {
   render() {
     return (
       <View style={{ flex: 1, paddingTop: Platform.OS === 'ios' ? 0 : Expo.Constants.statusBarHeight }}>
-        <MainNavigator />
+        <App />
       </View>
     );
   }
