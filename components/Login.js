@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text, ScrollView, Image } from 'react-native';
 import { Input, CheckBox, Button, Icon } from 'react-native-elements';
+import { Asset } from 'expo';
 import * as SecureStore from 'expo-secure-store';
+import * as ImageManipulator from 'expo-image-manipulator';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import { createBottomTabNavigator } from 'react-navigation-tabs'
@@ -138,13 +140,23 @@ class RegisterTab extends Component{
     {
       let capturedImage = await ImagePicker.launchCameraAsync({
         allowsEditing: true,
-        aspect: [3,4]
+        aspect: [4,3]
       });
       if(!capturedImage.cancelled){
-        this.setState({ imageUrl: capturedImage.uri })
+        this.processImage(capturedImage.uri)
       }
     }
   }
+  processImage = async (imageUri) => {
+    let processedImage = await ImageManipulator.manipulateAsync(
+      imageUri,
+      [
+        { resize: { width: 400 } }
+      ],
+      { format: 'png' }
+    );
+    this.setState({ imageUrl: processedImage.uri });
+  } 
   static navigationOptions = {
     title: 'Register',
     tabBarIcon: ({ tintColor }) => (
@@ -259,8 +271,8 @@ const styles = StyleSheet.create({
   },
   image: {
     margin: 10,
-    width: 60,
-    height: 80
+    width: 80,
+    height: 60
   },
   formInput: {
     margin: 10
